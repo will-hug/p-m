@@ -57,17 +57,23 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, ref } from 'vue';
+import { inject, ref, onMounted } from 'vue';
 
 const scrollBottomRef = ref<HTMLDivElement | null>(null)
+let windowHeight = ref<number>(document.body.clientHeight)
+
+// onMounted(()=>{
+//   windowHeight.value=document.body.clientHeight
+//   console.log("windowHeight",windowHeight.value)
+// })
 const scroll = ({ scrollTop }) => {
-  let offsetTop: number = scrollBottomRef.value?.offsetTop || windowHeight
-  let threshold: number = offsetTop - scrollTop - windowHeight
+  let offsetTop=ref<number>(scrollBottomRef.value?.offsetTop || windowHeight.value)
+  let threshold: number = offsetTop - scrollTop - windowHeight.value
   if (threshold <= 300) {
     console.log('setScrollLeft', scrollTop, offsetTop)
   }
 }
-let windowHeight = document.body.clientWidth
+
 
 const from = inject<any>("from")
 const table_data = inject<any>("table_data")
